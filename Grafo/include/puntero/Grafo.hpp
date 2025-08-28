@@ -1,10 +1,10 @@
-#ifndef GRAFOPUNTERO_H
-#define GRAFOPUNTERO_H
+#ifndef GRAFO_H
+#define GRAFO_H
 
 #include <iostream>
 using namespace std;
 
-template <class V, class C> class GrafoPuntero {
+template <class V, class C> class Grafo {
 public:
   GrafoPuntero(); // por defecto se asume dirigido
   virtual ~GrafoPuntero();
@@ -31,8 +31,8 @@ public:
   int getGrado(const V &v) const;
 
   // Métodos usados en la implementación con matriz de adyacencias y arreglos
-  GrafoPuntero(int capacidad_maxima, bool es_no_dirigido);
-  GrafoPuntero(int capacidad_maxima, bool es_no_dirigido, C sin_arista_val);
+  Grafo(int capacidad_maxima, bool es_no_dirigido);
+  Grafo(int capacidad_maxima, bool es_no_dirigido, C sin_arista_val);
 
 private:
   bool noDirigido; // No se hace esto de usar un flag para GD/GND según objetos.
