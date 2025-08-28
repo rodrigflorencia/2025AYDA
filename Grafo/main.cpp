@@ -2,9 +2,6 @@
 #include "include/puntero/GrafoLista.cpp"
 #include "include/rotulado/GrafoRotulado.hpp"
 
-#include "include/dfs.hpp"
-#include "include/redSocial.hpp"
-
 /**
  * Pruebas de la implementación de grafo rotulado con punteros
  */
@@ -102,10 +99,10 @@ int dfs() {
   g.addArco('e', 'c');
   g.addArco('f', 'c');
   cout << "Grafo\n" << g << endl;
-  list<ArcoClasificado<char>> a = dfsForestArcos(g);
+  /***list<ArcoClasificado<char>> a = dfsForestArcos(g);
   mostrarArcos(a);
   cout << "\n\nHay ciclo? " << hayCicloSimple(g) << endl << endl;
-
+**/
   return 0;
 }
 int tareas() {
@@ -129,12 +126,12 @@ int tareas() {
   g.addArco('4', '2');
   g.addArco('5', '1');
 
-  cout << "Grafo\n" << g << endl;
+  cout << "Grafo\n" << g << endl;/***
   list<char> a = dfsForest(g);
   cout << "\n\nOrden de tareas\n";
   for (char c : a)
     cout << c << " -> ";
-  cout << endl << endl;
+  cout << endl << endl;***/
   return 0;
 }
 int redSocial() {
@@ -156,12 +153,12 @@ int redSocial() {
   g.addArco("@pepe", "@rodo");
   g.addArco("@rodo", "@tito");
 
-  cout << g;
+  cout << g;/***
   string usuario = "@pepe";
   set<string> r = recomendaciones(g, usuario);
   cout << "\n\nRecomendaciones para " << usuario << endl;
   mostrarRecomendaciones(r);
-
+**/
   return 0;
 }
 
