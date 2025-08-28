@@ -1,4 +1,4 @@
-#include "GrafoPuntero.hpp"
+#include "Grafo.hpp"
 /**
  * @file GrafoMA.tpp
  * @brief Implementación de grafo con matriz de adyacencia y arreglo de
@@ -30,7 +30,7 @@
  * Crea grafo dirigido con capacidad N=1, sentinela -1 y 0 vértices cargados.
  * Llama a iniciarMatriz() e iniciarArreglo().
  */
-template <typename V, typename C> GrafoPuntero<V, C>::GrafoPuntero() {
+template <typename V, typename C> Grafo<V, C>::Grafo() {
   this->grafoMatrizN = 1;
   this->noDirigido = false;
   this->grafoMatrizSinArista = -1;
@@ -47,7 +47,7 @@ template <typename V, typename C> GrafoPuntero<V, C>::GrafoPuntero() {
  * @post Matriz inicializada con sentinela; arreglo de etiquetas listo.
  */
 template <typename V, typename C>
-GrafoPuntero<V, C>::GrafoPuntero(int capacidad_maxima, bool es_no_dirigido) {
+Grafo<V, C>::Grafo(int capacidad_maxima, bool es_no_dirigido) {
   this->grafoMatrizN = capacidad_maxima;
   this->noDirigido = es_no_dirigido;
   this->grafoMatrizSinArista = -1;
@@ -67,7 +67,7 @@ GrafoPuntero<V, C>::GrafoPuntero(int capacidad_maxima, bool es_no_dirigido) {
  * @param sin_arista_val Valor que representa "no hay arista".
  */
 template <typename V, typename C>
-GrafoPuntero<V, C>::GrafoPuntero(int capacidad_maxima, bool es_no_dirigido,
+Grafo<V, C>::Grafo(int capacidad_maxima, bool es_no_dirigido,
                                  C sin_arista_val) {
   this->grafoMatrizN = capacidad_maxima;
   this->noDirigido = es_no_dirigido;
@@ -84,7 +84,7 @@ GrafoPuntero<V, C>::GrafoPuntero(int capacidad_maxima, bool es_no_dirigido,
  * @brief Destructor. Libera matriz y arreglo de vértices.
  * @post nVertices() pasa a 0.
  */
-template <typename V, typename C> GrafoPuntero<V, C>::~GrafoPuntero() {
+template <typename V, typename C> Grafo<V, C>::~Grafo() {
   if (this->grafoMatriz) {
     for (int i = 0; i < this->grafoMatrizN; ++i)
       delete[] this->grafoMatriz[i];
@@ -103,7 +103,7 @@ template <typename V, typename C> GrafoPuntero<V, C>::~GrafoPuntero() {
  * @return nVertices (0..N).
  * @complexity O(1)
  */
-template <typename V, typename C> int GrafoPuntero<V, C>::nVertices() const {
+template <typename V, typename C> int Grafo<V, C>::nVertices() const {
   return this->grafoMatrizNVertices;
 }
 
@@ -114,7 +114,7 @@ template <typename V, typename C> int GrafoPuntero<V, C>::nVertices() const {
  * @complexity O(nVertices)
  */
 template <typename V, typename C>
-int GrafoPuntero<V, C>::getClave(const V &v) const {
+int Grafo<V, C>::getClave(const V &v) const {
   bool encontro = false;
   int i = 0;
   while (i < this->grafoMatrizN && !encontro) {
@@ -140,7 +140,7 @@ int GrafoPuntero<V, C>::getClave(const V &v) const {
  * @complexity O(1)
  */
 template <typename V, typename C>
-bool GrafoPuntero<V, C>::addVertice(const V &u) {
+bool Grafo<V, C>::addVertice(const V &u) {
   if (this->grafoMatrizNVertices < this->grafoMatrizN) {
 
     this->grafoMatrizVertices[this->grafoMatrizNVertices] = u;
@@ -166,7 +166,7 @@ bool GrafoPuntero<V, C>::addVertice(const V &u) {
  * @note En no-dirigido también setea v->u con el mismo costo.
  */
 template <typename V, typename C>
-bool GrafoPuntero<V, C>::addArco(const V &u, const V &v, const C &c) {
+bool Grafo<V, C>::addArco(const V &u, const V &v, const C &c) {
   int iU = this->getClave(u);
   int iV = this->getClave(v);
   if (iU != -1 && iV != -1) {
@@ -188,7 +188,7 @@ bool GrafoPuntero<V, C>::addArco(const V &u, const V &v, const C &c) {
  * @complexity O(nVertices) por dos getClave + O(1) asignación.
  */
 template <typename V, typename C>
-bool GrafoPuntero<V, C>::delArco(const V &u, const V &v) {
+bool Grafo<V, C>::delArco(const V &u, const V &v) {
   int iU = this->getClave(u);
   int iV = this->getClave(v);
   if (iU != -1 && iV != -1) {
@@ -209,7 +209,7 @@ bool GrafoPuntero<V, C>::delArco(const V &u, const V &v) {
  * @complexity O(nVertices) + O(1).
  */
 template <typename V, typename C>
-bool GrafoPuntero<V, C>::hayArco(const V &u, const V &v) const {
+bool Grafo<V, C>::hayArco(const V &u, const V &v) const {
   int iU = this->getClave(u);
   int iV = this->getClave(v);
   if (iU == -1 || iV == -1)
@@ -229,7 +229,7 @@ bool GrafoPuntero<V, C>::hayArco(const V &u, const V &v) const {
  * se cambie la arista/sentinela.
  */
 template <typename V, typename C>
-const C *GrafoPuntero<V, C>::getPeso(const V &u, const V &v) const {
+const C *Grafo<V, C>::getPeso(const V &u, const V &v) const {
   int iU = getClave(u);
   int iV = getClave(v);
   if (iU == -1 || iV == -1)
@@ -246,7 +246,7 @@ const C *GrafoPuntero<V, C>::getPeso(const V &u, const V &v) const {
  * @complexity O(N^2).
  * @note Muestra N filas/columnas (capacidad), no solo los nVertices cargados.
  */
-template <typename V, typename C> void GrafoPuntero<V, C>::imprimir() const {
+template <typename V, typename C> void Grafo<V, C>::imprimir() const {
   cout << "   ";
   for (int j = 0; j < this->grafoMatrizN; j++)
     cout << "[" << this->grafoMatrizVertices[j]
@@ -264,7 +264,7 @@ template <typename V, typename C> void GrafoPuntero<V, C>::imprimir() const {
   }
 }
 template <typename V, typename C>
-int GrafoPuntero<V, C>::getGrado(const V &u) const
+int Grafo<V, C>::getGrado(const V &u) const
 
 {
   return 1;
@@ -278,7 +278,7 @@ int GrafoPuntero<V, C>::getGrado(const V &u) const
  * @complexity O(nVertices) + O(N). El llamador debe liberar con delete[].
  */
 template <typename V, typename C>
-V *GrafoPuntero<V, C>::getAdyacentes(const V &u) const
+V *Grafo<V, C>::getAdyacentes(const V &u) const
 
 {
   int key = this->getClave(u);
@@ -303,7 +303,7 @@ V *GrafoPuntero<V, C>::getAdyacentes(const V &u) const
  * @brief Reserva y llena la matriz N x N con el sentinela.
  * @post grafoMatriz queda alocado; todas las celdas = grafoMatrizSinArista.
  */
-template <typename V, typename C> void GrafoPuntero<V, C>::iniciarMatriz() {
+template <typename V, typename C> void Grafo<V, C>::iniciarMatriz() {
   this->grafoMatriz = new C *[this->grafoMatrizN];
   for (int i = 0; i < this->grafoMatrizN; i++)
     this->grafoMatriz[i] = new C[this->grafoMatrizN];
@@ -318,7 +318,7 @@ template <typename V, typename C> void GrafoPuntero<V, C>::iniciarMatriz() {
  * defecto de V().
  * @post grafoMatrizVertices tiene N entradas inicializadas.
  */
-template <typename V, typename C> void GrafoPuntero<V, C>::iniciarArreglo() {
+template <typename V, typename C> void Grafo<V, C>::iniciarArreglo() {
   this->grafoMatrizVertices = new V[this->grafoMatrizN];
   for (int i = 0; i < this->grafoMatrizN; i++)
     this->grafoMatrizVertices[i] = nullptr || 0;
@@ -328,15 +328,15 @@ template <typename V, typename C> void GrafoPuntero<V, C>::iniciarArreglo() {
 // Instanciaciones explícitas
 // =======================
 
-template class GrafoPuntero<int, int>;
-template class GrafoPuntero<char, int>;
-template class GrafoPuntero<char, char>;
-template class GrafoPuntero<int, char>;
-template class GrafoPuntero<int, double>;
-template class GrafoPuntero<double, double>;
-template class GrafoPuntero<double, int>;
-template class GrafoPuntero<char, double>;
-template class GrafoPuntero<double, char>;
-template class GrafoPuntero<string, int>;
-template class GrafoPuntero<int, string>;
-template class GrafoPuntero<string, string>;
+template class Grafo<int, int>;
+template class Grafo<char, int>;
+template class Grafo<char, char>;
+template class Grafo<int, char>;
+template class Grafo<int, double>;
+template class Grafo<double, double>;
+template class Grafo<double, int>;
+template class Grafo<char, double>;
+template class Grafo<double, char>;
+template class Grafo<string, int>;
+template class Grafo<int, string>;
+template class Grafo<string, string>;
