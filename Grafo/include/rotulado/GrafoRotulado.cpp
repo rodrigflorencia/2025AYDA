@@ -1,8 +1,7 @@
 #include "GrafoRotulado.hpp"
 
 /**
- * @brief Implementación de un grafo genérico utilizando lista de adyacencias
- * con map. Complejidad: O(1)
+ * @brief Implementación de un grafo genérico utilizando lista de adyacencias con map.
  * @tparam V Tipo de dato para los vértices.
  * @tparam C Tipo de dato para los costos/pesos de las aristas.
  */
