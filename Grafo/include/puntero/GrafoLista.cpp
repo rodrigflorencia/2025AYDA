@@ -21,7 +21,7 @@
  * del número de vértices/aristas.
  * - Espacio: O(n + m).
  */
-#include "GrafoPuntero.hpp"
+#include "Grafo.hpp"
 
 // =======================
 // Constructores / dtor
@@ -37,7 +37,7 @@
  * @complexity O(1)
  */
 template <class TipoVertice, class TipoArco>
-GrafoPuntero<TipoVertice, TipoArco>::GrafoPuntero() {
+Grafo<TipoVertice, TipoArco>::Grafo() {
   this->grafoNodo = nullptr;
   this->nV = 0;
   this->nA = 0;
@@ -54,7 +54,7 @@ GrafoPuntero<TipoVertice, TipoArco>::GrafoPuntero() {
  * @complexity O(1)
  */
 template <class TipoVertice, class TipoArco>
-GrafoPuntero<TipoVertice, TipoArco>::GrafoPuntero(bool noDir) {
+Grafo<TipoVertice, TipoArco>::Grafo(bool noDir) {
   this->grafoNodo = nullptr;
   this->nV = 0;
   this->nA = 0;
@@ -72,7 +72,7 @@ GrafoPuntero<TipoVertice, TipoArco>::GrafoPuntero(bool noDir) {
  * @complexity O(n + m), n vertices y m aristas
  */
 template <class TipoVertice, class TipoArco>
-GrafoPuntero<TipoVertice, TipoArco>::~GrafoPuntero() {
+Grafo<TipoVertice, TipoArco>::~Grafo() {
   Nodo *tempNodo = grafoNodo;
   while (tempNodo != nullptr) {
     Arco *tempArco = tempNodo->ady;
@@ -102,7 +102,7 @@ GrafoPuntero<TipoVertice, TipoArco>::~GrafoPuntero() {
  * @complexity O(n), ya que recorre todos los vértices para evitar duplicados.
  */
 template <class TipoVertice, class TipoArco>
-bool GrafoPuntero<TipoVertice, TipoArco>::addVertice(const TipoVertice &o) {
+bool Grafo<TipoVertice, TipoArco>::addVertice(const TipoVertice &o) {
   // Verificar duplicado
   Nodo *tmp = this->grafoNodo;
   while (tmp != nullptr) {
@@ -145,7 +145,7 @@ bool GrafoPuntero<TipoVertice, TipoArco>::addVertice(const TipoVertice &o) {
  * @complexity O(n + m) por limpieza de aristas entrantes y salientes.
  */
 template <class TipoVertice, class TipoArco>
-bool GrafoPuntero<TipoVertice, TipoArco>::delVertice(
+bool Grafo<TipoVertice, TipoArco>::delVertice(
     const TipoVertice &vertice) {
   // Buscar nodo a borrar y su anterior
   Nodo *prev = nullptr;
@@ -231,7 +231,7 @@ bool GrafoPuntero<TipoVertice, TipoArco>::delVertice(
  * sentidos.
  */
 template <class TipoVertice, class TipoArco>
-bool GrafoPuntero<TipoVertice, TipoArco>::addArco(const TipoVertice &o,
+bool Grafo<TipoVertice, TipoArco>::addArco(const TipoVertice &o,
                                                   const TipoVertice &d,
                                                   const TipoArco &peso) {
   // Ubicar origen y destino
@@ -303,7 +303,7 @@ bool GrafoPuntero<TipoVertice, TipoArco>::addArco(const TipoVertice &o,
  * @complexity Igual a @c addArco(o,d,peso).
  */
 template <class TipoVertice, class TipoArco>
-bool GrafoPuntero<TipoVertice, TipoArco>::addArco(const TipoVertice &o,
+bool Grafo<TipoVertice, TipoArco>::addArco(const TipoVertice &o,
                                                   const TipoVertice &d) {
   // Usa valor por defecto de TipoArco
   TipoArco def = TipoArco();
@@ -323,7 +323,7 @@ bool GrafoPuntero<TipoVertice, TipoArco>::addArco(const TipoVertice &o,
  * O(d+grado(d)).
  */
 template <class TipoVertice, class TipoArco>
-bool GrafoPuntero<TipoVertice, TipoArco>::delArco(const TipoVertice &o,
+bool Grafo<TipoVertice, TipoArco>::delArco(const TipoVertice &o,
                                                   const TipoVertice &d) {
   // Buscar nodos
   Nodo *origen = this->grafoNodo;
@@ -395,7 +395,7 @@ bool GrafoPuntero<TipoVertice, TipoArco>::delArco(const TipoVertice &o,
  * @complexity O(n) porque n vertices y grado (n) para la arista
  */
 template <class TipoVertice, class TipoArco>
-bool GrafoPuntero<TipoVertice, TipoArco>::hayArco(const TipoVertice &o,
+bool Grafo<TipoVertice, TipoArco>::hayArco(const TipoVertice &o,
                                                   const TipoVertice &d) const {
   const Nodo *origen = this->grafoNodo;
   const Nodo *dest = this->grafoNodo;
@@ -434,7 +434,7 @@ bool GrafoPuntero<TipoVertice, TipoArco>::hayArco(const TipoVertice &o,
  */
 template <class TipoVertice, class TipoArco>
 const TipoArco *
-GrafoPuntero<TipoVertice, TipoArco>::getPeso(const TipoVertice &o,
+Grafo<TipoVertice, TipoArco>::getPeso(const TipoVertice &o,
                                              const TipoVertice &d) const {
   const Nodo *origen = this->grafoNodo;
   const Nodo *dest = this->grafoNodo;
@@ -471,7 +471,7 @@ GrafoPuntero<TipoVertice, TipoArco>::getPeso(const TipoVertice &o,
  * @complexity O(n) porque n vertices y grado (n) para la arista
  */
 template <class TipoVertice, class TipoArco>
-void GrafoPuntero<TipoVertice, TipoArco>::setPeso(const TipoVertice &o,
+void Grafo<TipoVertice, TipoArco>::setPeso(const TipoVertice &o,
                                                   const TipoVertice &d,
                                                   const TipoArco &costo) {
   Nodo *origen = this->grafoNodo;
@@ -521,7 +521,7 @@ void GrafoPuntero<TipoVertice, TipoArco>::setPeso(const TipoVertice &o,
  * @complexity O(1)
  */
 template <class TipoVertice, class TipoArco>
-int GrafoPuntero<TipoVertice, TipoArco>::nVertices() const {
+int Grafo<TipoVertice, TipoArco>::nVertices() const {
   return this->nV;
 }
 
@@ -540,7 +540,7 @@ int GrafoPuntero<TipoVertice, TipoArco>::nVertices() const {
  * @warning El llamador debe liberar el arreglo con @c delete[].
  */
 template <class TipoVertice, class TipoArco>
-TipoVertice *GrafoPuntero<TipoVertice, TipoArco>::getAdyacentes(
+TipoVertice *Grafo<TipoVertice, TipoArco>::getAdyacentes(
     const TipoVertice &etiqueta) const {
 
   Nodo *temp = this->grafoNodo;
@@ -573,8 +573,8 @@ TipoVertice *GrafoPuntero<TipoVertice, TipoArco>::getAdyacentes(
  * @warning El llamador debe liberar el arreglo con @c delete[].
  */
 template <class TipoVertice, class TipoArco>
-TipoVertice *GrafoPuntero<TipoVertice, TipoArco>::getVertices() const
-// TipoVertice *GrafoPuntero<TipoVertice, TipoArco>::getVertices() const
+TipoVertice *Grafo<TipoVertice, TipoArco>::getVertices() const
+// TipoVertice *Grafo<TipoVertice, TipoArco>::getVertices() const
 {
   // TODO
   return nullptr;
@@ -591,7 +591,7 @@ TipoVertice *GrafoPuntero<TipoVertice, TipoArco>::getVertices() const
  * @complexity O(n+m) n vertices y m aristas.
  */
 template <class TipoVertice, class TipoArco>
-void GrafoPuntero<TipoVertice, TipoArco>::imprimir() const {
+void Grafo<TipoVertice, TipoArco>::imprimir() const {
   const Nodo *u = this->grafoNodo;
   while (u != nullptr) {
     cout << u->etiqueta << " :";
@@ -613,15 +613,15 @@ void GrafoPuntero<TipoVertice, TipoArco>::imprimir() const {
 // Instanciaciones explícitas
 // =======================
 
-template class GrafoPuntero<int, int>;
-template class GrafoPuntero<char, int>;
-template class GrafoPuntero<char, char>;
-template class GrafoPuntero<int, char>;
-template class GrafoPuntero<int, double>;
-template class GrafoPuntero<double, double>;
-template class GrafoPuntero<double, int>;
-template class GrafoPuntero<char, double>;
-template class GrafoPuntero<double, char>;
-template class GrafoPuntero<string, int>;
-template class GrafoPuntero<int, string>;
-template class GrafoPuntero<string, string>;
+template class Grafo<int, int>;
+template class Grafo<char, int>;
+template class Grafo<char, char>;
+template class Grafo<int, char>;
+template class Grafo<int, double>;
+template class Grafo<double, double>;
+template class Grafo<double, int>;
+template class Grafo<char, double>;
+template class Grafo<double, char>;
+template class Grafo<string, int>;
+template class Grafo<int, string>;
+template class Grafo<string, string>;
