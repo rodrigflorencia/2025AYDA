@@ -2,6 +2,5 @@
 build
 .ccls-cache
 .git
-.replit
 Grafo/include/redSocial.hpp
 Grafo/include/dfs.hpp

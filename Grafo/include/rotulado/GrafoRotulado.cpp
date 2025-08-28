@@ -41,7 +41,7 @@ template <class V, class C> void GrafoRotulado<V, C>::addVertice(const V &v) {
  */
 template <class V, class C>
 void GrafoRotulado<V, C>::addArco(const V &u, const V &v, const C &c) {
-  this->grafoMapa[u].insert({v, c});
+  this->grafoMapa[u].insert({v, c}); // si ya existe, no se agrega
   if (this->noDirigido && u != v)
     this->grafoMapa[v].insert({u, c});
 }
@@ -84,20 +84,17 @@ template <class V, class C>
 const C GrafoRotulado<V, C>::getPeso(const V &u, const V &v) const {
   typename map<V, map<V, C>>::const_iterator itU = this->grafoMapa.find(u);
   if (itU == this->grafoMapa.end())
-    return 0;
+    return C{};
 
   const map<V, C> &fila = itU->second;
 
-  typename map<V, C>::const_iterator itV = fila.find(v);
-  if (itV == fila.end())
-    return 0; // o nullptr
-
-  // devolver puntero al costo almacenado
-  return itV->second;
+  return fila.find(v)->second;
 }
 
 /**
  * @brief Devuelve una lista con los adyacentes de un vértice.
+ * Al tener como estructura base el mapa, no vamos a tener repetidos en la
+ * lista.
  * @param v Vértice de referencia.
  * @return Lista con los vértices adyacentes, o lista vacía si no hay
  * adyacencias.
@@ -117,8 +114,8 @@ list<V> GrafoRotulado<V, C>::getAdyacentes(const V &v) const {
 }
 
 /**
- *
- * O(n)
+ * Al tener como estructura base el mapa, no vamos a tener repetidos en la
+ * lista.
  */
 template <class V, class C> list<V> GrafoRotulado<V, C>::getVertices() const {
   list<V> v;
