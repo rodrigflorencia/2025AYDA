@@ -25,6 +25,7 @@ Punto &Punto::operator=(const Punto &otro)
 {
     this->setX(otro.getX());
     this->setY(otro.getY());
+    return *this;
 }
 
 double Punto::getDistancia(const Punto &otro) const
