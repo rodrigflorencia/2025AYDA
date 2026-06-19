@@ -29,7 +29,7 @@ void Poligono::agregarPunto(const Punto &p)
     this->cantidad++;
 }
 
-const Punto & getPunto (int i)
+const Punto & getVertice (int i)
 {
   assert(i<= (this->cantidad );
     return this->vertices[i];
