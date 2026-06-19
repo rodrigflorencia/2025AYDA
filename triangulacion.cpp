@@ -66,7 +66,7 @@ int main()
     std::cout << "Costo de triangulación del cuadrado: " << costoTriangulacion(cuadrado) << std::endl;
 
     delete v0;
-  delete v1;
+    delete v1;
     delete v2;
     delete v3;
     delete cuadrado;
@@ -87,7 +87,6 @@ int main()
 
     std::cout << "Costo de triangulación del pentágono: " << costoTriangulacion(pentagono) << std::endl;
 
-    delete v0;
     delete v1;
     delete v2;
     delete v3;
