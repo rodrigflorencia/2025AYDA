@@ -3,8 +3,8 @@
 
 #define MAX 9999
 
-double costoTriangulacion(Poligono * p) const {
-  int n = p->etTotalVertices();
+double costoTriangulacion (Poligono * p) {
+  int n = p->getTotalVertices();
     assert(n > 3 && p->esConvexo() && p->sentidoAntihorario()); // solo aplica a polígonos convexos de 4 lados o más. 
   
     double ** c = new double*[n-3]; // matriz de costos
@@ -41,12 +41,12 @@ double costoTriangulacion(Poligono * p) const {
         }
 
     }
-    double costo = c[p->n-4][0];
+    double costo = c[n-4][0];
     
-    for (int i=0;i<p->n-3;i++){
-        delete c[i];
+    for (int i=0;i<n-3;i++){
+        delete[] c[i];
     }
-    delete c;
+    delete[] c;
 
     return costo;
 }
@@ -63,9 +63,10 @@ int main()
     cuadrado->agregarPunto(*v2);
     cuadrado->agregarPunto(*v3);
 
-    std::cout << "Costo de triangulación del cuadrado: " << cuadrado->costoTriangulacion() << std::endl;
+    std::cout << "Costo de triangulación del cuadrado: " << costoTriangulacion(cuadrado) << std::endl;
 
-    delete v1;
+    delete v0;
+  delete v1;
     delete v2;
     delete v3;
     delete cuadrado;
@@ -84,7 +85,7 @@ int main()
     pentagono->agregarPunto(*v3);
     pentagono->agregarPunto(*v4);
 
-    std::cout << "Costo de triangulación del pentágono: " << pentagono->costoTriangulacion() << std::endl;
+    std::cout << "Costo de triangulación del pentágono: " << costoTriangulacion(pentagono) << std::endl;
 
     delete v0;
     delete v1;
@@ -108,8 +109,8 @@ int main()
     hexagono->agregarPunto(*v4);
     hexagono->agregarPunto(*v5);
 
-    std::cout << "Costo de triangulación del hexágono: " << hexagono->costoTriangulacion() << std::endl;
-
+    std::cout << "Costo de triangulación del hexágono: " << costoTriangulacion(hexagono) << std::endl;
+    delete v0;
     delete v1;
     delete v2;
     delete v3;
@@ -133,7 +134,7 @@ int main()
     heptagono->agregarPunto(*v4);
     heptagono->agregarPunto(*v5);
     heptagono->agregarPunto(*v6);
-    std::cout << "Costo de triangulación del heptágono: " << heptagono->costoTriangulacion() << std::endl;
+    std::cout << "Costo de triangulación del heptágono: " << costoTriangulacion(heptagono) << std::endl;
     delete v0;
     delete v1;
     delete v2;
@@ -163,7 +164,7 @@ int main()
     octogono->agregarPunto(*v6);
     octogono->agregarPunto(*v7);
 
-    std::cout << "Costo de triangulación del octágono: " << octogono->costoTriangulacion() << std::endl;
+    std::cout << "Costo de triangulación del octágono: " << costoTriangulacion(octogono) << std::endl;
 
     delete v0;
     delete v1;
