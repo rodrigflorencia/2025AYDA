@@ -24,7 +24,7 @@ int Poligono::getTotalVertices() const
 
 void Poligono::agregarPunto(const Punto &p)
 {
-    assert(this->cantidad <= this->N);
+    assert(this->cantidad < this->N);
     this->vertices[this->cantidad] = p;
     this->cantidad++;
 }
