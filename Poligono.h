@@ -16,6 +16,6 @@ public:
     bool esConvexo() const;
     bool sentidoAntihorario() const;
     int getTotalVertices() const;
-    const Punto & getPunt(int i) const;
+    const Punto & getVertice(int i) const;
 };
 #endif // POLIGONO_H
