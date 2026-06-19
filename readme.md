@@ -342,4 +342,3 @@ Puntos para tener en cuenta al elegir la implementación:
   
 - Al tener la matriz, no tenemos el costo espacial de los objetos de la clase Punto, p<sub>i</sub>, p<sub>k</sub> y p<sub>s</sub>, pero caemos en un costo espacial de almacenamiento de la matriz.
 
-Se recomienda incluir métricas para medir la cantidad de operaciones y los timepos de ejecución.
