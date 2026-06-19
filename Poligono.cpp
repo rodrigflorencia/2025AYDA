@@ -29,46 +29,10 @@ void Poligono::agregarPunto(const Punto &p)
     this->cantidad++;
 }
 
-double Poligono::costoTriangulacion() const
+const Punto & getPunto (int i)
 {
-    assert(this->cantidad > 3 && this->esConvexo() && this->sentidoAntihorario());
-
-    int nC = this->cantidad - 3;
-    double **C = new double *[nC];
-
-    for (int s = 4; s <= this->cantidad; s++)
-    {
-        C[s - 4] = new double[this->cantidad];
-        for (int i = 0; i < this->cantidad; i++)
-        {
-            int ultimo = (s + i - 1) % this->cantidad;
-
-            const Punto &pi = this->vertices[i];
-            const Punto &ps = this->vertices[ultimo];
-            c[s - 4][i] = MAX;
-
-            for (int k = 1; k <= s - 2; k++)
-            {
-                int x = (i + k) % this->cantidad;
-                const Punto &pk = this->vertices[x];
-
-                double c1 = (k + 1 >= 4) ? C[k - 3][i] : 0;
-                double c2 = (s - k >= 4) ? C[s - k - 4][x] : 0;
-                double d1 = (k != 1) ? pi.getDistancia(pk) : 0;
-                double d2 = (x != (ultimo - 1)) ? pk.getDistancia(ps) : 0;
-                double costoK = c1 + c2 + d1 + d2;
-
-                if (costoK < C[s - 4][i])
-                    C[s - 4][i] = costoK;
-            }
-        }
-    }
-  
-    double costo = C[nC - 1][0];
-
-    liberarMemoria(C, nC);
-
-    return costo;
+  assert(i<= (this->cantidad );
+    return this->vertices[i];
 }
 
 bool Poligono::esConvexo() const
