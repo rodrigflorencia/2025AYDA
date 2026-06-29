@@ -48,3 +48,11 @@ void Punto::setY(double y)
 {
     this->y = y;
 }
+ double Punto::productoCruz( const Punto &B, const Punto &C) const
+{
+    double ABx = B.getX() - this->x;
+    double ABy = B.getY() - this->y;
+    double BCx = C.getX() - B.getX();
+    double BCy = C.getY() - B.getY();
+    return ABx * BCy - ABy * BCx;
+}
