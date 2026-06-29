@@ -58,14 +58,7 @@ bool Poligono::esConvexo() const
     return !productoNegativo;
 }
 
-double Poligono::productoCruz(const Punto &A, const Punto &B, const Punto &C) const
-{
-    double ABx = B.getX() - A.getX();
-    double ABy = B.getY() - A.getY();
-    double BCx = C.getX() - B.getX();
-    double BCy = C.getY() - B.getY();
-    return ABx * BCy - ABy * BCx;
-}
+
 
 bool Poligono::sentidoAntihorario() const
 {
