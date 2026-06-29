@@ -72,7 +72,7 @@ Dados los vértices de un polígono convexo se trata de seleccionar un conjunto 
 
 Utilidad: se puede emplear para sombrear objetos tridimensionales en una imagen virtual (bidimensional).
 
-// poner una imagen que sea mas distinta de la de lal lado
+
 
 ![Posibles triangulaciones para un polígono P](img/img1.png)
 
@@ -147,198 +147,59 @@ Para cada posición (i,s) de la tabla se necesita almacenar, además del costo, 
 
 Entonces la solución consta de las cuerdas (v<sub>i</sub>,v<sub>i+k</sub>) y (v<sub>i+k</sub>,v<sub>i+s-1</sub>) (a menos que una de ellas no sea cuerda, porque k=1 o k=s-2), más las cuerdas que generadas por las soluciones de S<sub>i,k+1</sub> y S<sub>i+k,s-k</sub>.
 
-## Alternativas de implementación
+## Implementación
 
-1. Se puede utilizar una matriz de distancias D, en lugar de invocar al método getDistancia de la clase Punto.
-
-Archivo Poligono.cpp
+Archivo triangulacion.cpp
 
 ```cpp
 
-double Poligono::costoTriangulacion() const
-{
-
-    double **D = new double *[this->cantidad];
-    incializarDistancias(D, this->cantidad);
-
-    double **C = new double *[this->cantidad - 4];
-
-    for (int s = 4; s <= this->cantidad; s++)
-    {
-        C[s - 4] = new double[this->cantidad];
-        for (int i = 0; i < this->cantidad; i++)
-        {
-            int ultimo = (s + i - 1) % this->cantidad;
-            C[s - 4][i] = MAX;
-            for (int k = 1; k <= s - 2; k++)
-            {
-                int x = (i + k) % this->cantidad;
-                double c1 = (k + 1 >= 4) ? c[k - 3][i] : 0;
-                double c2 = (s - k >= 4) ? c[s - k - 4][x] : 0;
-                double d1 = D[i][x];
-                double d2 = D[x][ultimo];
-                double costoK = c1 + c2 + d1 + d2;
-                if (costoK < C[s - 4][i])
-                    C[s - 4][i] = costoK;
-            }
-        }
-    }
-    double costo = C[this->cantidad - 4][0];
-
-    liberarMemoria(C,D,this->cantidad);
-
-    return costo;
-}
-
-void Poligono::incializarDistancias(double ** D, int n) const
-{
-    for (int i = 0; i < n; i++)
-    {
-        D[i] = new double[n];
-        const Punto &pi = this->vertices[i];
-        
-        // si vi, vj forman una arista, es decir, son consecutivos, tomamos la distancia como cero
-        for (int j = 0; j < n; j++)
-            D[i][j] = ((i == j) || (i + 1 == j) || (i == 0 && j == n - 1) || (j == 0 && i == n - 1))
-                          ? 0
-                          : pi.getDistancia(this->vertices[j]);
-    }
-}
-
-void liberarMemoria(double ** C, double ** D, int n) const
-{
-    int i = 0;
-    while (i < n - 3)
-    {
-        delete[] D[i];
-        delete[] C[i];
-        i++;
-    }
-    while (i < n)
-    {
-        delete[] D[i];
-        i++;
-    }
-
-    delete[] C;
-    delete[] D;
-    C = NULL;
-    D = NULL;
-}
-```
-En Poligono .h, incluir el método que inicializa D como privado.
-
-2. Se puede utilizar la matriz de costos de N * (N+1). Las filas menores a 4 deben tener 0:
-
-Archivo Poligono.cpp
-
-```cpp
-double Poligono::costoTriangulacion() const{
-    
-    double ** C = new double*[this->cantidad+1];
-
-    // Primeras tres filas de matriz de costos, con 0
-    for (int s = 0; s < 4; s++)
-    {
-      C[s] = new double[this->cantidad];
-      for (int i = 0; i < this->cantidad; i++)
-        C[s][i] = 0;
-    }
-
-    // Soluciones parciales a sub problemas 
-    for (int s = 4; s <= this->cantidad; s++)
-    {
-        C[s - 4] = new double[this->cantidad];
-        for (int i = 0; i < this->cantidad; i++)
-        {
-            int ultimo = (s + i - 1) % this->cantidad;
-            C[s][i] = MAX;
-
-            for (int k = 1; k <= s - 2; k++)
-            {
-                int x = (i + k) % this->cantidad;
-                double c1 = C[k + 1][i];
-                double c2 = C[s - k ][x];
-                double d1 = (k!=1) ? pi.getDistancia(pk) : 0;
-                double d2 = (x != (ultimo-1) ) ? pk.getDistancia(ps) : 0;
-                double costo_k = c1 + c2 + d1 + d2;
-                if (costo_k < C[s][i])
-                    C[s][i] = costo_k;
-            }
-        }
-    }
-    double costo = C[this->cantidad][0];
-
-    liberarMemoria(C,D,this->cantidad);
-
-    return costo;
-}
-
-void Poligono::liberarMemoria(double ** C,double ** D, int n) const
-{
-    for (int i=0;i<n;i++)
-    {
-        delete[] C[i];
-        delete[] D[i];
-    }
-    delete[] C[n];
-    delete[] C;
-    delete[] D;
-    C = NULL;
-    D = NULL;
-}
-```
-
-3. A continuación, se muestra una alternativa de implementación, utlizando matriz de distancias y matriz de costos con filas de problemas de tamaño menor a cuatro iniciadas en cero
-
-Archivo Poligono.cpp
-
-```cpp
-double Poligono::costoTriangulacion() const
-{
-    assert(this->cantidad > 3 && this->esConvexo() && this->sentidoAntihorario());
-
-    double ** C = new double*[this->cantidad+1];
-    double ** D = new double *[this->cantidad];
-    incializarDistancias(D, this->cantidad);
-
-    for (int s = 0; s < 4; s++)
-    {
-      C[s] = new double[this->cantidad];
-      for (int i = 0; i< this->cantidad; i++)
-        C[s][i] = 0;
-    }
-
-    for (int s = 4; s <= this->cantidad; s++)
-    {
-        C[s] = new double[this->cantidad];
-        for (int i=0; i< this->cantidad; i++)
-        {
-            int ultimo = (s+i-1)%this->cantidad;
-            C[s][i] = MAX;
-
-            for (int k=1; k<= s-2; k++)
-            {
-                int x = (i+k)%this->cantidad;
-                double costoK = C[k+1][i] + C[s-k][x] + D[i][x] + D[x][ultimo];
-                if (costoK < C[s][i])
-                    C[s][i] = costoK;
-            }
-        }
-    }
-
-    double costo = C[this->cantidad][0];
-    liberarMemoria(C,D);
-
-    return costo;
-}
-
-```
-## Para analizar
-
-Puntos para tener en cuenta al elegir la implementación:
-
-- El getDistancia tiene operaciones aritméticas complejas, como la raíz cuadrada y la potencia. Pueden no ser del orden constante. En ese caso sería mejor la matriz.
+double costoTriangulacion (Poligono * p) {
+  int n = p->getTotalVertices();
+    assert(n > 3 && p->esConvexo() && p->sentidoAntihorario()); // solo aplica a polígonos convexos de 4 lados o más. 
   
-- Al tener la matriz, no tenemos el costo espacial de los objetos de la clase Punto, p<sub>i</sub>, p<sub>k</sub> y p<sub>s</sub>, pero caemos en un costo espacial de almacenamiento de la matriz.
+    double ** c = new double*[n-3]; // matriz de costos
+    
+    for (int s = 4; s <=n; s++) // s es el tamaño del subproblema
+    {
+        c[s-4] = new double[n]; // resto para que la matriz arranque en 0. Crear la fila para guardar los subproblemas tamaño s
+        for (int i=0; i< n; i++) // vértice de inicio
+        {
+            int ultimo = (s+i-1)%n;
+
+            const Punto & pi = p->getVertice(i); // inicio
+            const Punto & ps = p->getVertice(ultimo); // fin
+            c[s-4][i] = MAX;
+
+            for (int k=1; k<= s-2; k++) // k para probar cuerdas internas al polígono y obtener el mínimo
+            {
+                int x = (i+k)%n;
+                const Punto & pk = p->getVertice(x); // obtener vértice intermedio a inicio vi y inicio+s, vs
+
+                double c1 = (k+1>=4) ? c[k-3][i] : 0; 
+                double c2 = (s-k>=4) ? c[s-k-4][x] : 0; 
+                double d1 = (k!=1) ? pi.getDistancia(pk) : 0; 
+                double d2 = (x != (ultimo-1) ) ? pk.getDistancia(ps) : 0; 
+                double costo_k = c1 + c2 + d1 + d2;
+
+                if (costo_k < c[s-4][i]) // triangulación menor. compara con los k's previos y se queda con el más chico
+                {
+                    c[s-4][i] = costo_k;
+                }
+
+            }
+
+        }
+
+    }
+    double costo = c[n-4][0];
+    
+    for (int i=0;i<n-3;i++){
+        delete[] c[i];
+    }
+    delete[] c;
+
+    return costo;
+
+```
+
 
