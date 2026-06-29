@@ -47,7 +47,8 @@ bool Poligono::esConvexo() const
 
     while (!productoNegativo && i < this->cantidad)
     {
-        double cruz = productoCruz(this->vertices[i], this->vertices[(i + 1) % this->cantidad], this->vertices[(i + 2) % this->cantidad]);
+        const Punto &actual = this->vertices[i];
+        double cruz = actual.productoCruz(this->vertices[(i + 1) % this->cantidad], this->vertices[(i + 2) % this->cantidad]);
         if (cruz > 0)
         {
             productoNegativo = true;
