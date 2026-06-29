@@ -17,5 +17,7 @@ public:
     double getY() const;
     void setX(double x);
     void setY(double y);
+    double productoCruz(const Punto &B, const Punto &C);
+
 };
 #endif // PUNTO_H
