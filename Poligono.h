@@ -7,8 +7,7 @@ private:
     int N;
     Punto *vertices;
     int cantidad;
-    double productoCruz(const Punto &A, const Punto &B, const Punto &C) const;
-   
+ 
 public:
     Poligono(int n);
     ~Poligono();
